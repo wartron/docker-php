@@ -16,18 +16,26 @@ matrix:
     allow_failures:
         - php: hhvm
 
+before_install: |
+    # needed for the UML container
+    sudo apt-get install -qq -y slirp aufs-tools cgroup-lite
+
+    # prepare docker dir for aufs mount
+    sudo mkdir -p /var/lib/docker
+
+    # download usermode linux kernel for docker
+    curl -sLo linux https://github.com/jpetazzo/sekexe/raw/master/uml
+    chmod +x linux
+
+    # download docker
+    curl -sLo docker https://get.docker.io/builds/Linux/x86_64/docker-1.3.2
+    chmod +x docker
+
+    # ---------------------------------------------------------------------------
+    chmod +x tests.sh
+    chmod +x run.sh
+
 install:
   - COMPOSER_ROOT_VERSION=dev-master composer --prefer-source --dev install
-  - sudo sh -c "wget -qO- https://get.docker.io/gpg | apt-key add -"
-  - sudo sh -c "echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list"
-  - sudo apt-get update
-  - sudo mkdir -p /var/lib/docker
-  - echo exit 101 | sudo tee /usr/sbin/policy-rc.d
-  - sudo chmod +x /usr/sbin/policy-rc.d
-  - sudo apt-get install -y slirp lxc lxc-docker aufs-tools cgroup-lite
-  - curl -sLo linux https://github.com/jpetazzo/sekexe/raw/master/uml
-  - chmod +x linux
 
-script:
-  - ./linux quiet mem=2G rootfstype=hostfs rw eth0=slirp,,/usr/bin/slirp-fullbolt init=$(pwd)/docker.sh WORKDIR=$(pwd) HOME=$(pwd) PATH=$PATH
-  - bash -c "exit $(cat /tmp/build.status)"
+script: ./run.sh

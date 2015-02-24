@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Exit on first error
-set -e
+cd $WORKDIR
 
 save_and_shutdown() {
   # save built for host result
@@ -11,10 +10,7 @@ save_and_shutdown() {
 }
 
 # make sure we shut down cleanly
-trap save_and_shutdown EXIT SIGINT SIGTERM
-
-# go back to where we were invoked
-cd $WORKDIR
+trap save_and_shutdown EXIT
 
 # can't do much without proc!
 mount -t proc none /proc
@@ -56,7 +52,7 @@ echo 'nameserver 8.8.8.8' > /run/resolvconf/resolv.conf
 mount --bind /run/resolvconf/resolv.conf /etc/resolv.conf
 
 # Start docker daemon
-docker -d -H 0.0.0.0:4243 -H unix:///var/run/docker.sock 2>> /dev/null >> /dev/null &
+((./docker -H 0.0.0.0:4243 -d >/dev/null 2>&1 &) &)
 sleep 5
 
-DOCKER_HOST=tcp://127.0.0.1:4243 php -d default_socket_timeout=5 bin/phpunit -c phpunit.xml.dist
+DOCKER_HOST=tcp://127.0.0.1:4243 php bin/phpunit -c phpunit.xml.dist
