@@ -52,7 +52,7 @@ echo 'nameserver 8.8.8.8' > /run/resolvconf/resolv.conf
 mount --bind /run/resolvconf/resolv.conf /etc/resolv.conf
 
 # Start docker daemon
-((./docker -H 127.0.0.1 -d &) &)
+((./docker -H tcp://0.0.0.0:4243 -d &) &)
 sleep 5
 
-php bin/phpunit -c phpunit.xml.dist
+DOCKER_HOST=tcp://127.0.0.1:4243 php bin/phpunit -c phpunit.xml.dist
