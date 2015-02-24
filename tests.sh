@@ -34,8 +34,8 @@ mkdir -p /var/run
 mount -t tmpfs none /var/run
 
 # docker config
-mkdir -p /etc/docker
-mount -t tmpfs none /etc/docker
+sudo mkdir -p /etc/docker
+sudo mount -t tmpfs none /etc/docker
 
 # takes the pain out of cgroups
 cgroups-mount
