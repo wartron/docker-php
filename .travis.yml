@@ -17,23 +17,23 @@ matrix:
         - php: hhvm
 
 before_install: |
-    # needed for the UML container
-    sudo apt-get install -qq -y slirp aufs-tools cgroup-lite
+  # needed for the UML container
+  sudo apt-get install -qq -y slirp aufs-tools cgroup-lite
 
-    # prepare docker dir for aufs mount
-    sudo mkdir -p /var/lib/docker
+  # prepare docker dir for aufs mount
+  sudo mkdir -p /var/lib/docker
 
-    # download usermode linux kernel for docker
-    curl -sLo linux https://github.com/jpetazzo/sekexe/raw/master/uml
-    chmod +x linux
+  # download usermode linux kernel for docker
+  curl -sLo linux https://github.com/jpetazzo/sekexe/raw/master/uml
+  chmod +x linux
 
-    # download docker
-    curl -sLo docker https://get.docker.io/builds/Linux/x86_64/docker-1.3.2
-    chmod +x docker
+  # download docker
+  curl -sLo docker https://get.docker.io/builds/Linux/x86_64/docker-1.3.2
+  chmod +x docker
 
-    # ---------------------------------------------------------------------------
-    chmod +x tests.sh
-    chmod +x run.sh
+  # ---------------------------------------------------------------------------
+  chmod +x tests.sh
+  chmod +x run.sh
 
 install:
   - COMPOSER_ROOT_VERSION=dev-master composer --prefer-source --dev install
