@@ -62,6 +62,6 @@ mount --bind /run/resolvconf/resolv.conf /etc/resolv.conf
 ((./docker -H tcp://0.0.0.0:4243 -d &) &)
 sleep 5
 
-docker pull ubuntu:precise
+DOCKER_HOST=tcp://127.0.0.1:4243 ./docker pull ubuntu:precise
 
 DOCKER_HOST=tcp://127.0.0.1:4243 php bin/phpunit -c phpunit.xml.dist
