@@ -58,10 +58,10 @@ mkdir -p /run/resolvconf
 echo 'nameserver 8.8.8.8' > /run/resolvconf/resolv.conf
 mount --bind /run/resolvconf/resolv.conf /etc/resolv.conf
 
-curl  https://index.docker.io/v1/search?q=ubuntu
-
 # Start docker daemon
 ((./docker -H tcp://0.0.0.0:4243 -d &) &)
 sleep 5
+
+docker pull ubuntu:precise
 
 DOCKER_HOST=tcp://127.0.0.1:4243 php bin/phpunit -c phpunit.xml.dist
