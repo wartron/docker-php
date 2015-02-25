@@ -9,8 +9,6 @@ save_and_shutdown() {
   halt -f
 }
 
-curl  https://index.docker.io/v1/search?q=ubuntu
-
 # make sure we shut down cleanly
 trap save_and_shutdown EXIT
 
@@ -59,6 +57,8 @@ ip route add default via 10.1.1.254
 mkdir -p /run/resolvconf
 echo 'nameserver 8.8.8.8' > /run/resolvconf/resolv.conf
 mount --bind /run/resolvconf/resolv.conf /etc/resolv.conf
+
+curl  https://index.docker.io/v1/search?q=ubuntu
 
 # Start docker daemon
 ((./docker -H tcp://0.0.0.0:4243 -d &) &)
