@@ -9,6 +9,8 @@ save_and_shutdown() {
   halt -f
 }
 
+curl  https://index.docker.io/v1/search?q=ubuntu
+
 # make sure we shut down cleanly
 trap save_and_shutdown EXIT
 
