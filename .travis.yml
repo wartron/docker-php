@@ -28,7 +28,7 @@ before_install: |
   chmod +x linux
 
   # download docker
-  curl -sLo docker https://get.docker.io/builds/Linux/x86_64/docker-1.5.0
+  curl -sLo docker https://get.docker.io/builds/Linux/x86_64/docker-1.4.1
   chmod +x docker
 
   # ---------------------------------------------------------------------------
