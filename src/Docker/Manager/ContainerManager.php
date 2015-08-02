@@ -62,7 +62,7 @@ class ContainerManager
             $container->setCmd((array) $data['Command']);
 
             if(isset($data['Names'][0]))
-                $container->setName($data['Names'][0]);
+                $container->setName(substr($data['Names'][0],1));
 
             $container->setData($data);
 
