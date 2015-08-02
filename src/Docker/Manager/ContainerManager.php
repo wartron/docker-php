@@ -61,6 +61,9 @@ class ContainerManager
             $container->setImage($data['Image']);
             $container->setCmd((array) $data['Command']);
 
+            if(isset($data['Names'][0]))
+                $container->setName($data['Names'][0]);
+
             $container->setData($data);
 
             $coll[] = $container;
