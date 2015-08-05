@@ -103,6 +103,23 @@ class ImageManager
     }
 
     /**
+     * Get an image from docker daemon
+     *
+     * @param string $id Id of image to get
+     *
+     * @return Image
+     */
+    public function findById($id)
+    {
+        $image = new Image();
+        $image->setId($id);
+
+        $data = $this->inspect($image);
+
+        return $image;
+    }
+
+    /**
      * Inspect an image
      *
      * @param \Docker\Image $image
@@ -116,13 +133,7 @@ class ImageManager
     public function inspect(Image $image)
     {
         try {
-            # Images need not have a name and tag,(__toString() may return ':')
-            # so prefer an id hash as the key
-            if (null != $image->getId()) {
-              $id = $image->getId();
-            } else {
-              $id = $image->__toString();
-            }
+            $id = $image->getId();
 
             $response = $this->client->get(['/images/{id}/json', ['id' => $id]]);
 
